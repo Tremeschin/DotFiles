@@ -1,0 +1,10 @@
+{
+	"buildDir": "/tmp/yay",
+	"pacmanconf": "~/.config/pacman/pacman.conf",
+	"doubleconfirm": false,
+	"answerclean": "",
+	"answerdiff": "none",
+	"answeredit": "none",
+	"answerupgrade": "",
+	"devel": false
+}

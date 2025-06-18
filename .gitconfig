@@ -1,0 +1,26 @@
+
+# General configuration
+
+[user]
+name = Tremeschin
+email = 29046864+Tremeschin@users.noreply.github.com
+signingkey = /home/tremeschin/Secrets/SSH/github-ssh.pub
+
+[init]
+defaultBranch = main
+
+# Always use SSH for Git operations
+
+[url "ssh://git@github.com/"]
+insteadOf = https://github.com/
+
+[url "ssh://git@hf.co/"]
+insteadOf = https://huggingface.co/
+
+# Commit signing
+
+[gpg]
+format = ssh
+
+[commit]
+gpgSign = true
