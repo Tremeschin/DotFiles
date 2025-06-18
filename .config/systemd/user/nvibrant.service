@@ -1,0 +1,10 @@
+[Unit]
+Description=Apply nVibrant
+After=graphical.target
+
+[Service]
+Type=oneshot
+ExecStart=uvx nvibrant 1023 1023
+
+[Install]
+WantedBy=default.target
