@@ -1,0 +1,15 @@
+[project]
+name        = "dotfiles"
+version     = "1.0"
+description = "Sensible system dotfiles"
+classifiers = ["Private :: Do Not Upload"]
+license     = "MIT"
+dependencies = [
+    "attrs",
+    "pydantic",
+    "tomlkit",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
