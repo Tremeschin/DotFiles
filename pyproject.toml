@@ -6,9 +6,14 @@ classifiers = ["Private :: Do Not Upload"]
 license     = "MIT"
 dependencies = [
     "attrs",
+    "cyclopts",
     "pydantic",
     "tomlkit",
 ]
+
+[project.scripts]
+dot     = "dotfiles.__main__:main"
+get-yay = "dotfiles.pacman:Yay.get"
 
 [build-system]
 requires = ["hatchling"]

@@ -1,6 +1,4 @@
 
-# Local bin scripts
-export PATH="$HOME/.local/bin:$PATH"
-
-# Disable annoying .python-history (https://stackoverflow.com/a/63653039)
-export PYTHONSTARTUP="$HOME/.config/python/startup.py"
+# Disable annoying .python-history
+# https://docs.python.org/3/using/cmdline.html
+PYTHON_HISTORY=nul

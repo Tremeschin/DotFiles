@@ -1,13 +1,11 @@
 if status is-interactive
     set fish_greeting "Saba 🐟"
 
-    set missing
-
     # https://starship.rs/
     if type -q starship
         starship init fish | source
     else
-        set missing $missing starship
+        echo "Missing starship"
     end
 
     # https://crates.io/crates/zoxide
@@ -90,15 +88,4 @@ if status is-interactive
         echo "Missing: yay -S $missing"
         set_color normal
     end
-
-
-    # Someone else's skill issue
-    export PIP_BREAK_SYSTEM_PACKAGES=1
-
-    # https://wiki.archlinux.org/title/Docker#Rootless_Docker_daemon
-    # set -x DOCKER_HOST unix://$XDG_RUNTIME_DIR/docker.sock
-
-    # Disable annoying .python-history (https://stackoverflow.com/a/63653039)
-    set -x PYTHONSTARTUP "$HOME/.config/python/startup.py"
-
 end

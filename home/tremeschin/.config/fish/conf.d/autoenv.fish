@@ -1,5 +1,4 @@
 #!/bin/fish
-# (c) Tremeschin, MIT License
 # Automatically source cwd python venvs
 
 function _autoenv --on-variable PWD
