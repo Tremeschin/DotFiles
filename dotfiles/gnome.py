@@ -23,7 +23,7 @@ class Gsettings:
 
     def theme(self,
         icons: str = "Papirus",
-        accent: str = "purple",
+        accent: str = "blue",
     ) -> Self:
         self.set("org.gnome.desktop.interface", "icon-theme", icons)
         self.set("org.gnome.desktop.interface", "gtk-theme", "adw-gtk3-dark")
@@ -39,7 +39,7 @@ class Gsettings:
     def privacy(self) -> Self:
         """Minor privacy tweaks"""
         self.set("org.gnome.desktop.privacy", "remember-recent-files", "false")
-        self.set("org.gnome.search-providers", "disable-external", "true")
+        self.set("org.gnome.desktop.search-providers", "disable-external", "true")
         return self
 
     def annoyances(self) -> Self:
@@ -48,10 +48,9 @@ class Gsettings:
         self.set("org.gnome.desktop.interface", "enable-hot-corners", "false")
         self.set("org.gnome.desktop.peripherals.mouse", "accel-profile", "flat")
 
-        #
-        self.set("org.gnome.desktop.ddatetime", "automatic-timezone", "true")
+        self.set("org.gnome.desktop.datetime", "automatic-timezone", "true")
         self.set("org.gnome.desktop.interface", "clock-format", "24h")
-        self.set("org.gtk.settings.file-chooser", "clock-format", "24h")
+        self.set("org.gtk.gtk4.settings.file-chooser", "clock-format", "24h")
 
         # See all apps in overview
         self.set("org.gnome.shell", "favorite-apps", "[]")
@@ -60,7 +59,7 @@ class Gsettings:
 
     def nautilus(self) -> Self:
         """Sane configurations for Nautilus"""
-        self.set("org.gtk.settings.file-chooser", "sort-directories-first", "true")
+        self.set("org.gtk.gtk4.settings.file-chooser", "sort-directories-first", "true")
         self.set("org.gnome.nautilus.preferences", "click-policy", "single")
         self.set("org.gnome.nautilus.preferences", "date-time-format", "detailed")
         return self
@@ -84,6 +83,5 @@ gsettings = Gsettings()
 
 class Gnome:
     ...
-
 
 gnome = Gnome()

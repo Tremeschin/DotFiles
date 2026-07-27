@@ -1,0 +1,7 @@
+[
+  {
+    "bindings": {
+      "ctrl-shift-a": "editor::SortLinesCaseInsensitive"
+    }
+  }
+]

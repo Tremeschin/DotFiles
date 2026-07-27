@@ -1,0 +1,11 @@
+[Unit]
+Description=Apply nvibrant
+After=graphical.target
+
+[Service]
+Type=oneshot
+ExecStartPre=/bin/sleep 2
+ExecStart=uvx nvibrant 1023 1023
+
+[Install]
+WantedBy=default.target

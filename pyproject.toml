@@ -1,14 +1,13 @@
 [project]
 name        = "dotfiles"
-version     = "1.0"
 description = "Sensible system dotfiles"
 classifiers = ["Private :: Do Not Upload"]
+version     = "1.0"
 license     = "MIT"
 dependencies = [
     "attrs",
     "cyclopts",
     "pydantic",
-    "tomlkit",
 ]
 
 [project.scripts]

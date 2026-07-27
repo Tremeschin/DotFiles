@@ -1,0 +1,87 @@
+{
+  "agent": {
+    "button": false,
+    "favorite_models": [],
+    "model_parameters": [],
+    "sidebar_side": "right",
+  },
+  "auto_update": false,
+  "base_keymap": "VSCode",
+  "buffer_font_family": "Comic Mono",
+  "buffer_font_size": 28,
+  "buffer_font_weight": 900,
+  "buffer_line_height": "standard",
+  "collaboration_panel": {
+    "button": false,
+  },
+  "debugger": {
+    "button": false,
+  },
+  "diagnostics": {
+    "button": false,
+  },
+  "disable_ai": false,
+  "edit_predictions": {
+    "allow_data_collection": "no",
+    "mode": "eager",
+    "ollama": {
+      "max_output_tokens": 32,
+      "model": "ornith:9b",
+    },
+    "provider": "ollama",
+  },
+  "extend_comment_on_newline": false,
+  "format_on_save": "on",
+  "git": {
+    "inline_blame": {
+      "enabled": false,
+    },
+  },
+  "git_panel": {
+    "group_by": "staging",
+    "tree_view": false,
+  },
+  "icon_theme": "JetBrains New UI Icons (Dark)",
+  "inline_code_actions": false,
+  "language_models": {
+    "ollama": {
+      "context_window": 8192,
+    },
+  },
+  "mouse_wheel_zoom": true,
+  "outline_panel": {
+    "button": false,
+  },
+  "project_panel": {
+    "sticky_scroll": false,
+    "auto_fold_dirs": false,
+    "dock": "left",
+    "entry_spacing": "standard",
+    "git_status": false,
+    "hide_root": false,
+    "indent_size": 20,
+  },
+  "scroll_sensitivity": 2,
+  "search": {
+    "button": false,
+  },
+  "show_wrap_guides": true,
+  "status_bar": {
+    "cursor_position_button": false,
+  },
+  "telemetry": {
+    "anthropic_retention": false,
+    "diagnostics": false,
+    "metrics": false,
+  },
+  "terminal": {
+    "button": true,
+  },
+  "theme": "Synestheme",
+  "title_bar": {
+    "button_layout": "standard",
+    "show_sign_in": false,
+  },
+  "ui_font_size": 28,
+  "wrap_guides": [80, 100],
+}
