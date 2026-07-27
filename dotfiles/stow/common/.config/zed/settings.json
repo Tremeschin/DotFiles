@@ -1,8 +1,6 @@
 {
   "agent": {
     "button": false,
-    "favorite_models": [],
-    "model_parameters": [],
     "sidebar_side": "right",
   },
   "auto_update": false,
@@ -39,54 +37,80 @@
   },
   "git_panel": {
     "group_by": "staging",
-    "tree_view": false,
+    "tree_view": true,
   },
+  "hover_popover_delay": 200,
+  "hover_popover_hiding_delay": 0,
   "icon_theme": "JetBrains New UI Icons (Dark)",
-  "inline_code_actions": false,
-  "languages": {
-    "Python": {
-      "language_servers": ["ty", "!basedpyright", "ruff"],
-    },
+  "indent_guides": {
+    "active_line_width": 3,
+    "coloring": "fixed",
   },
+  "inline_code_actions": false,
   "language_models": {
     "ollama": {
       "context_window": 8192,
     },
+  },
+  "languages": {
+    "Python": {
+      "code_actions_on_format": {
+        "source.fixAll.ruff": true,
+        "source.organizeImports": true,
+      },
+      "language_servers": ["basedpyright", "ruff", "ty"],
+    },
+  },
+  "line_ending": "enforce_crlf",
+  "minimap": {
+    "display_in": "all_editors",
+    "show": "always",
+    "thumb": "always",
+    "thumb_border": "none",
   },
   "mouse_wheel_zoom": true,
   "outline_panel": {
     "button": false,
   },
   "project_panel": {
-    "sticky_scroll": false,
     "auto_fold_dirs": false,
+    "bold_folder_labels": true,
     "dock": "left",
     "entry_spacing": "standard",
     "git_status": false,
-    "hide_root": false,
+    "hide_root": true,
     "indent_size": 20,
+    "sticky_scroll": false,
   },
+  "restore_on_startup": "last_workspace",
   "scroll_sensitivity": 2,
   "search": {
-    "button": false,
+    "include_ignored": true,
   },
+  "semantic_tokens": "off",
   "show_wrap_guides": true,
   "status_bar": {
     "cursor_position_button": false,
   },
   "telemetry": {
-    "anthropic_retention": false,
     "diagnostics": false,
     "metrics": false,
   },
   "terminal": {
-    "button": true,
+    "button": false,
   },
   "theme": "Synestheme",
   "title_bar": {
     "button_layout": "standard",
     "show_sign_in": false,
   },
+  "toolbar": {
+    "agent_review": false,
+    "breadcrumbs": false,
+    "code_actions": false,
+    "quick_actions": false,
+    "selections_menu": false,
+  },
   "ui_font_size": 28,
-  "wrap_guides": [80, 100],
+  "wrap_guides": [100, 80],
 }
