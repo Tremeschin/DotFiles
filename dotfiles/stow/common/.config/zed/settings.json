@@ -43,6 +43,11 @@
   },
   "icon_theme": "JetBrains New UI Icons (Dark)",
   "inline_code_actions": false,
+  "languages": {
+    "Python": {
+      "language_servers": ["ty", "!basedpyright", "ruff"],
+    },
+  },
   "language_models": {
     "ollama": {
       "context_window": 8192,

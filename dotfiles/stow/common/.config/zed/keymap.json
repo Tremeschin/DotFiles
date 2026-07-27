@@ -1,7 +1,9 @@
 [
   {
     "bindings": {
-      "ctrl-shift-a": "editor::SortLinesCaseInsensitive"
-    }
-  }
+      "ctrl-shift-a": "editor::SortLinesCaseInsensitive",
+      "alt-left": "pane::GoBack",
+      "alt-right": "pane::GoForward",
+    },
+  },
 ]
