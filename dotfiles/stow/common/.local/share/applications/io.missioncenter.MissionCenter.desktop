@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=Mission Center
+Type=Application
+Exec=missioncenter
+Icon=org.gnome.SystemMonitor
