@@ -5,8 +5,8 @@ from typing import Self
 
 class Gsettings:
 
-    def set(self, base: str, key: str, value: str) -> CompletedProcess:
-        return subprocess.run(("gsettings", "set", base, key, value))
+    def set(self, base: str, key: str, value: str) -> int:
+        return subprocess.check_call(("gsettings", "set", base, key, value))
 
     def font(self,
         interface: str = "Inter Medium 12",
@@ -77,6 +77,47 @@ class Gsettings:
         self.set("org.gnome.desktop.wm.keybindings", "toggle-fullscreen", "['<Super>f']")
         self.set("org.gnome.desktop.wm.keybindings", "show-desktop", "['<Super>d']")
 
+        return self
+
+    def extensions(self) -> Self:
+        self.set("org.gnome.shell", "enabled-extensions", str([
+            "appindicatorsupport@rgcjonas.gmail.com",
+            "dash-to-dock@micxgx.gmail.com",
+            "launch-new-instance@gnome-shell-extensions.gcampax.github.com",
+        ]))
+        return self
+
+    def ext_dash_to_dock(self) -> Self:
+        base = "org.gnome.shell.extensions.dash-to-dock"
+        self.set(base, "custom-theme-shrink", "true")
+        self.set(base, "disable-overview-on-startup", "true")
+        self.set(base, "hotkeys-overlay", "false")
+        self.set(base, "hotkeys-show-dock", "false")
+        self.set(base, "multi-monitor", "true")
+        self.set(base, "shortcut-text", "")
+        self.set(base, "show-mounts", "false")
+        self.set(base, "show-show-apps-button", "true")
+        self.set(base, "show-trash", "false")
+        self.set(base, "apply-custom-theme", "false")
+        self.set(base, "transparency-mode", "DYNAMIC")
+        self.set(base, "customize-alphas", "true")
+        self.set(base, "min-alpha", "0.15")
+        self.set(base, "max-alpha", "0.80")
+        return self
+
+    def pinned_apps(self) -> Self:
+        self.set("org.gnome.shell", "favorite-apps", str([
+            "firefox.desktop",
+            "org.gnome.Nautilus.desktop",
+            "org.pulseaudio.pavucontrol.desktop",
+            "com.github.wwmm.easyeffects.desktop",
+            "io.missioncenter.MissionCenter.desktop",
+            "org.gnome.Console.desktop",
+            "dev.zed.Zed.desktop",
+            "discord.desktop",
+            "org.telegram.desktop.desktop",
+            "steam.desktop",
+        ]))
         return self
 
 gsettings = Gsettings()

@@ -1,14 +1,10 @@
-import os
 from collections.abc import Iterable
 from pathlib import Path
 
+from dotfiles import HOME, HOSTNAME
+
 FLAVORS: Path = Path(__file__).parent
 """Common directory storing dotfiles"""
-
-HOSTNAME: str = os.uname().nodename
-"""Machine hostname as in `uname -n`"""
-
-HOME: Path = Path.home()
 
 
 class Stow:
@@ -55,6 +51,10 @@ class Stow:
         if any(target.is_relative_to(x) for x in sources):
             raise RuntimeError("Cannot sync to a path inside sources")
 
+        def status(kind: str) -> None:
+            nonlocal dotfile, item
+            print(f"{kind} ({dotfile}) -> ({item})")
+
         # Visited relative dotfiles
         seen: set[Path] = set()
 
@@ -67,7 +67,7 @@ class Stow:
 
                 # Skips and priority
                 if relative in seen:
-                    print(f"Skip {item} @ {dotfile}")
+                    status("Skip")
                     continue
                 if item.is_dir():
                     continue
@@ -77,7 +77,7 @@ class Stow:
                 # Skip symlinks already pointing to the right place
                 if dotfile.is_symlink():
                     if (dotfile.resolve() == item):
-                        print(f"Pass {item} @ {dotfile}")
+                        status("Pass")
                         continue
 
                 # Check for conversion or adoption
@@ -85,13 +85,13 @@ class Stow:
 
                     # Contents can already be the same, convert to symlink
                     if dotfile.read_bytes() == item.read_bytes():
-                        print(f"Conv {item} @ {dotfile}")
+                        status("Conv")
                         if not dry:
                             dotfile.unlink()
                     else:
                         raise RuntimeError(f"Detached file • adopt it {dotfile}")
 
-                print(f"Link {item} @ {dotfile}")
+                status("Link")
 
                 # Actually create the symlink
                 if not dry:
