@@ -89,20 +89,21 @@ class Gsettings:
 
     def ext_dash_to_dock(self) -> Self:
         base = "org.gnome.shell.extensions.dash-to-dock"
+        self.set(base, "apply-custom-theme", "false")
         self.set(base, "custom-theme-shrink", "true")
+        self.set(base, "customize-alphas", "true")
+        self.set(base, "dance-urgent-applications", "false")
         self.set(base, "disable-overview-on-startup", "true")
         self.set(base, "hotkeys-overlay", "false")
         self.set(base, "hotkeys-show-dock", "false")
+        self.set(base, "max-alpha", "0.80")
+        self.set(base, "min-alpha", "0.15")
         self.set(base, "multi-monitor", "true")
         self.set(base, "shortcut-text", "")
         self.set(base, "show-mounts", "false")
         self.set(base, "show-show-apps-button", "true")
         self.set(base, "show-trash", "false")
-        self.set(base, "apply-custom-theme", "false")
         self.set(base, "transparency-mode", "DYNAMIC")
-        self.set(base, "customize-alphas", "true")
-        self.set(base, "min-alpha", "0.15")
-        self.set(base, "max-alpha", "0.80")
         return self
 
     def pinned_apps(self) -> Self:
