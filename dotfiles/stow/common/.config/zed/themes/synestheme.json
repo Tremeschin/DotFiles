@@ -1,7 +1,7 @@
 {
   "name": "Synestheme",
   "author": "Tremeschin",
-  "description": "A Synesthesia inspired theme with strong and opinionated syntax colors (vscode-monokai-night fork)",
+  "description": "A Synesthesia inspired theme with strong and opinionated syntax colors (vscode-monokai-night fork port)",
   "$schema": "https://zed.dev/schema/themes/v0.2.0.json",
   "isUserGenerated": true,
   "themes": [
