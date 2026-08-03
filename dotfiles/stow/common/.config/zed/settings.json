@@ -1,8 +1,44 @@
 {
   "agent": {
-    "button": false,
-    "sidebar_side": "right",
+    "inline_assistant_model": {
+      "provider": "ollama",
+      "model": "gemma4:12b",
+      "enable_thinking": false,
+    },
+    "favorite_models": [
+      {
+        "provider": "ollama",
+        "model": "gemma4:e2b",
+        "enable_thinking": true,
+      },
+      {
+        "provider": "ollama",
+        "model": "gemma4:e4b",
+        "enable_thinking": true,
+      },
+      {
+        "provider": "ollama",
+        "model": "gemma4:12b",
+        "enable_thinking": true,
+      },
+      {
+        "provider": "ollama",
+        "model": "qwen3.5:9b",
+        "enable_thinking": true,
+      },
+    ],
+    "flexible": true,
+    "button": true,
+    "default_model": {
+      "enable_thinking": true,
+      "model": "gemma4:12b",
+      "provider": "ollama",
+    },
+    "default_profile": "ask",
+    "dock": "right",
+    "enable_feedback": false,
   },
+  "agent_buffer_font_size": 20,
   "auto_update": false,
   "base_keymap": "VSCode",
   "buffer_font_family": "Comic Mono",
@@ -25,7 +61,8 @@
     "mode": "subtle",
     "ollama": {
       "max_output_tokens": 32,
-      "model": "ornith:9b",
+      "model": "qwen3.5:9b",
+      "prompt_format": "qwen",
     },
     "provider": "ollama",
   },
@@ -36,6 +73,7 @@
       "enabled": false,
     },
   },
+  "git_commit_buffer_font_size": 20,
   "git_panel": {
     "group_by": "staging",
     "tree_view": true,
@@ -50,10 +88,45 @@
   "inline_code_actions": false,
   "language_models": {
     "ollama": {
-      "context_window": 8192,
+      "context_window": 65536,
+
+      // Fixme: Global keep_alive
+      "available_models": [
+        {
+          "name": "gemma4:e2b",
+          "max_tokens": 65536,
+          "keep_alive": "5m",
+          "supports_thinking": true,
+          "supports_tools": true,
+        },
+        {
+          "name": "gemma4:e4b",
+          "max_tokens": 65536,
+          "keep_alive": "5m",
+          "supports_thinking": true,
+          "supports_tools": true,
+        },
+        {
+          "name": "gemma4:12b",
+          "max_tokens": 65536,
+          "keep_alive": "5m",
+          "supports_thinking": true,
+          "supports_tools": true,
+        },
+        {
+          "name": "qwen3.5:9b",
+          "max_tokens": 65536,
+          "keep_alive": "5m",
+          "supports_thinking": true,
+          "supports_tools": true,
+        },
+      ],
     },
   },
   "languages": {
+    "Markdown": {
+      "format_on_save": "off",
+    },
     "Python": {
       "code_actions_on_format": {
         "source.fixAll.ruff": true,
@@ -79,7 +152,7 @@
     "dock": "left",
     "entry_spacing": "standard",
     "git_status": false,
-    "hide_root": true,
+    "hide_root": false,
     "indent_size": 20,
     "sticky_scroll": false,
   },
@@ -97,9 +170,7 @@
     "diagnostics": false,
     "metrics": false,
   },
-  "terminal": {
-    "button": false,
-  },
+  "text_rendering_mode": "subpixel",
   "theme": "Synestheme",
   "title_bar": {
     "button_layout": "standard",
