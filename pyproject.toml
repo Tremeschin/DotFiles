@@ -11,8 +11,9 @@ dependencies = [
 ]
 
 [project.scripts]
-dot     = "dotfiles.__main__:main"
-get-yay = "dotfiles.pacman:Yay.get"
+dot      = "dotfiles.__main__:main"
+get-yay  = "dotfiles.pacman:Yay.get"
+dot-stow = "dotfiles.stow:main"
 
 [build-system]
 requires = ["hatchling"]

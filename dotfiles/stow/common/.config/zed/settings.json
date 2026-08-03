@@ -2,7 +2,7 @@
   "agent": {
     "inline_assistant_model": {
       "provider": "ollama",
-      "model": "gemma4:12b",
+      "model": "gemma4:e4b",
       "enable_thinking": false,
     },
     "favorite_models": [
@@ -24,6 +24,11 @@
       {
         "provider": "ollama",
         "model": "qwen3.5:9b",
+        "enable_thinking": true,
+      },
+      {
+        "provider": "ollama",
+        "model": "qwen3.5:27b",
         "enable_thinking": true,
       },
     ],
@@ -67,6 +72,7 @@
     "provider": "ollama",
   },
   "extend_comment_on_newline": false,
+  "file_scan_exclusions": [".stfolder", ".git", ".venv", ".stignore"],
   "format_on_save": "on",
   "git": {
     "inline_blame": {
@@ -115,6 +121,13 @@
         },
         {
           "name": "qwen3.5:9b",
+          "max_tokens": 65536,
+          "keep_alive": "5m",
+          "supports_thinking": true,
+          "supports_tools": true,
+        },
+        {
+          "name": "qwen3.5:27b",
           "max_tokens": 65536,
           "keep_alive": "5m",
           "supports_thinking": true,

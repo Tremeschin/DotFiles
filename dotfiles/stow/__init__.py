@@ -101,7 +101,8 @@ class Stow:
 # Static instance
 stow = Stow()
 
-if __name__ == "__main__":
+# Todo: basic cli
+def main():
     # stow.remove_dangling(HOME)
     stow.sync(
         FLAVORS.joinpath(HOSTNAME),
@@ -109,3 +110,6 @@ if __name__ == "__main__":
         target=HOME,
         dry=False,
     )
+
+if __name__ == "__main__":
+    main()
