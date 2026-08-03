@@ -24,4 +24,16 @@
       "alt-z": "editor::ToggleSoftWrap",
     },
   },
+  {
+    "context": "!AcpThread > Editor && mode == full",
+    "bindings": {
+      "ctrl-i": "assistant::InlineAssist"
+    }
+  },
+  {
+    "context": "!AcpThread > Editor && mode == full",
+    "unbind": {
+      "ctrl-enter": "assistant::InlineAssist"
+    }
+  }
 ]
