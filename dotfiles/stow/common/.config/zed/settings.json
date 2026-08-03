@@ -1,8 +1,9 @@
 {
   "agent": {
+    "commit_message_instructions": "Use Conventional Commits format: `<type>(<optional scope>): <description>`, without a body or footer. Description should preserve the concrete intent and affected components from the input exhaustively, do not generalize multiple independent changes into vague terms, and must be one to three sentences long. Suggested universal <types> are, in no preference order: (api, chore, ci, clean, docs, feat, fix, meta, minor, patch, release, speed, specs, style, tests, types) and extra ones (assets, bench, compat, i18n, refactor, revert, rewrite, vendor) when applicable, and 'other' as last resource. Scope should identify the primary project area, subsystem, component, package, or platform affected (prefer the owning area over an implementation detail). Scope can be empty only for simple, direct changes that are obvious from the repository structure (doesn't touch abstract implementations, existing tool or options documentation, or changes spread across multiple areas). Otherwise, a scope must be defined, especially for deeper, multi-file, cross-platform, or subsystem-specific changes, eg. fix(ollama), docs(windows), ci(release), style(manifest), release(minor). For dotfiles, wrappers, vendored files, or configurations, swap the scope and type, as in starship(fix), fish(clean), gnome(minor).",
     "inline_assistant_model": {
       "provider": "ollama",
-      "model": "gemma4:e4b",
+      "model": "qwen3.5:9b",
       "enable_thinking": false,
     },
     "favorite_models": [
@@ -28,7 +29,7 @@
       },
       {
         "provider": "ollama",
-        "model": "qwen3.5:27b",
+        "model": "qwen3.6:35b-a3b",
         "enable_thinking": true,
       },
     ],
@@ -127,7 +128,7 @@
           "supports_tools": true,
         },
         {
-          "name": "qwen3.5:27b",
+          "name": "qwen3.6:35b-a3b",
           "max_tokens": 65536,
           "keep_alive": "5m",
           "supports_thinking": true,
