@@ -91,6 +91,18 @@ class Cart:
 
 EVERYTHING MUST USE TYPE HINTS.
 
+## Commits
+
+Use Conventional Commits format: `<type>(<optional scope>): <description>`, without a body or footer.
+
+Suggested universal <types> are, in no preference order: (api, chore, ci, clean, docs, feat, fix, meta, minor, patch, release, speed, specs, style, tests, types) and extra ones (assets, bench, compat, i18n, refactor, revert, rewrite, vendor) when applicable, and 'other' as last resource.
+
+Scope should identify the primary project area, subsystem, component, package, or platform affected (prefer the owning area over an implementation detail). Can be empty only for simple, direct changes that are obvious from the repository structure (doesn't touch abstract implementations, existing tool or options documentation, or changes spread across multiple areas). Otherwise, a scope must be defined, especially for deeper, multi-file, cross-platform, or subsystem-specific changes, eg. fix(ollama), docs(windows), ci(release), style(manifest), release(minor).
+
+Description should preserve the concrete intent and affected components from the input exhaustively, do not generalize multiple independent changes into vague terms, and must be one to three sentences long.
+
+For dotfiles, wrappers, vendored files, or configurations, swap the scope and type, as in starship(fix), fish(clean), gnome(minor).
+
 ## Extrapolation
 
 Do not EVER autocomplete unsolicited or new information without knowing the full intent and context from the user.
