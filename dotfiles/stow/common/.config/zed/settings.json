@@ -149,6 +149,15 @@
     },
   },
   "line_ending": "enforce_lf",
+  "lsp": {
+    "tinymist": {
+      "settings": {
+        "exportPdf": "onSave",
+        "outputPath": "/tmp/$name",
+        "formatterMode": "typstyle",
+      },
+    },
+  },
   "minimap": {
     "display_in": "all_editors",
     "show": "always",
