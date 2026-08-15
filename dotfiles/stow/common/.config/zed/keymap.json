@@ -35,5 +35,11 @@
     "unbind": {
       "ctrl-enter": "assistant::InlineAssist"
     }
+  },
+  {
+    "context": "Editor",
+    "unbind": {
+      "ctrl-;": "editor::ToggleLineNumbers"
+    }
   }
 ]
