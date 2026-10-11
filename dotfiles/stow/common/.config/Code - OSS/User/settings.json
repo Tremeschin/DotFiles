@@ -17,6 +17,7 @@
     "explorer.confirmDelete": false,
     "explorer.decorations.badges": false,
     "explorer.decorations.colors": false,
+    "git.confirmSync": false,
     "git.enableCommitSigning": true,
     "rust-analyzer.cargo.features": "all",
     "rust-analyzer.checkOnSave": false,

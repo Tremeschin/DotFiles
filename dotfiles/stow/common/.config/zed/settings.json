@@ -1,58 +1,8 @@
 {
-  "agent": {
-    "sandbox_permissions": {
-      "allow_all_hosts": true,
-      "allow_fs_write_all": false,
-      "allow_unsandboxed": false,
-    },
-    "inline_assistant_model": {
-      "provider": "ollama",
-      "model": "qwen3.5:9b",
-      "enable_thinking": false,
-    },
-    "favorite_models": [
-      {
-        "provider": "ollama",
-        "model": "gemma4:e2b",
-        "enable_thinking": true,
-      },
-      {
-        "provider": "ollama",
-        "model": "gemma4:e4b",
-        "enable_thinking": true,
-      },
-      {
-        "provider": "ollama",
-        "model": "gemma4:12b",
-        "enable_thinking": true,
-      },
-      {
-        "provider": "ollama",
-        "model": "qwen3.5:9b",
-        "enable_thinking": true,
-      },
-      {
-        "provider": "ollama",
-        "model": "qwen3.6:35b-a3b",
-        "enable_thinking": true,
-      },
-    ],
-    "flexible": true,
-    "button": true,
-    "default_model": {
-      "enable_thinking": true,
-      "model": "gemma4:12b",
-      "provider": "ollama",
-    },
-    "default_profile": "ask",
-    "dock": "right",
-    "enable_feedback": false,
-  },
-  "agent_buffer_font_size": 20,
   "auto_update": false,
   "base_keymap": "VSCode",
   "buffer_font_family": "Comic Mono",
-  "buffer_font_size": 28,
+  "buffer_font_size": 24,
   "buffer_font_weight": 900,
   "buffer_line_height": "standard",
   "cli_default_open_behavior": "existing_window",
@@ -63,21 +13,18 @@
     "button": false,
   },
   "diagnostics": {
-    "button": false,
+    "button": true,
   },
   "disable_ai": false,
-  "edit_predictions": {
-    "allow_data_collection": "no",
-    "mode": "subtle",
-    "ollama": {
-      "max_output_tokens": 32,
-      "model": "qwen3.5:9b",
-      "prompt_format": "qwen",
-    },
-    "provider": "ollama",
-  },
   "extend_comment_on_newline": false,
-  "file_scan_exclusions": ["**/.stfolder", "**/.git", "**/.venv", "**/.stignore", "**/py.typed"],
+  "file_scan_exclusions": [
+    "**/.git",
+    "**/.stfolder",
+    "**/.stignore",
+    "**/.venv",
+    "**/py.typed",
+    // "**/site",
+  ],
   "format_on_save": "on",
   "git": {
     "inline_blame": {
@@ -97,50 +44,6 @@
     "coloring": "fixed",
   },
   "inline_code_actions": false,
-  "language_models": {
-    "ollama": {
-      "context_window": 65536,
-
-      // Fixme: Global keep_alive
-      "available_models": [
-        {
-          "name": "gemma4:e2b",
-          "max_tokens": 65536,
-          "keep_alive": "5m",
-          "supports_thinking": true,
-          "supports_tools": true,
-        },
-        {
-          "name": "gemma4:e4b",
-          "max_tokens": 65536,
-          "keep_alive": "5m",
-          "supports_thinking": true,
-          "supports_tools": true,
-        },
-        {
-          "name": "gemma4:12b",
-          "max_tokens": 65536,
-          "keep_alive": "5m",
-          "supports_thinking": true,
-          "supports_tools": true,
-        },
-        {
-          "name": "qwen3.5:9b",
-          "max_tokens": 65536,
-          "keep_alive": "5m",
-          "supports_thinking": true,
-          "supports_tools": true,
-        },
-        {
-          "name": "qwen3.6:35b-a3b",
-          "max_tokens": 65536,
-          "keep_alive": "5m",
-          "supports_thinking": true,
-          "supports_tools": true,
-        },
-      ],
-    },
-  },
   "languages": {
     "Markdown": {
       "format_on_save": "off",
@@ -150,27 +53,10 @@
         "source.fixAll.ruff": true,
         "source.organizeImports": true,
       },
-      "language_servers": ["basedpyright", "ruff", "ty"],
+      "language_servers": ["!basedpyright", "ruff", "ty"],
     },
-  },
-  "lsp": {
-    "tinymist": {
-      "settings": {
-        "exportPdf": "onType",
-        "formatterMode": "disable",
-        "outputPath": "/tmp/cache/typst/$name",
-      },
-      "initialization_options": {
-        "preview": {
-          "background": {
-            "enabled": true,
-            "args": [
-              "--data-plane-host=127.0.0.1:23635",
-              "--invert-colors=never",
-            ],
-          },
-        },
-      },
+    "Rust": {
+      "format_on_save": "off",
     },
   },
   "minimap": {
@@ -200,9 +86,6 @@
   },
   "semantic_tokens": "off",
   "show_wrap_guides": true,
-  "status_bar": {
-    "cursor_position_button": false,
-  },
   "telemetry": {
     "diagnostics": false,
     "metrics": false,
@@ -214,12 +97,8 @@
     "show_sign_in": false,
   },
   "toolbar": {
-    "agent_review": true,
-    "breadcrumbs": true,
     "code_actions": true,
-    "quick_actions": true,
-    "selections_menu": true,
   },
-  "ui_font_size": 30,
+  "ui_font_size": 24,
   "wrap_guides": [100, 80],
 }
