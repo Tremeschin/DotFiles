@@ -1,5 +1,4 @@
 import subprocess
-from subprocess import CompletedProcess
 from typing import Self
 
 
@@ -64,6 +63,11 @@ class Gsettings:
         self.set("org.gnome.nautilus.preferences", "date-time-format", "detailed")
         return self
 
+    def rhythmbox(self) -> Self:
+        self.set("org.gnome.rhythmbox.sources", "visible-columns", '["duration", "post-time"]')
+        self.set("org.gnome.rhythmbox", "paned-position", "0")
+        return self
+
     def keybindings(self) -> Self:
 
         # Unique alt tab and previews
@@ -122,6 +126,9 @@ class Gsettings:
         return self
 
 gsettings = Gsettings()
+gsettings.pinned_apps()
+gsettings.ext_dash_to_dock()
+gsettings.extensions()
 
 class Gnome:
     ...

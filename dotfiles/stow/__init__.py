@@ -62,14 +62,15 @@ class Stow:
             if not root.exists():
                 continue
             for item in root.rglob("*"):
+                if item.is_dir():
+                    continue
+
                 relative = item.relative_to(root)
                 dotfile = target.joinpath(relative)
 
                 # Skips and priority
                 if relative in seen:
                     status("Skip")
-                    continue
-                if item.is_dir():
                     continue
 
                 seen.add(relative)
@@ -103,7 +104,8 @@ stow = Stow()
 
 # Todo: basic cli
 def main():
-    # stow.remove_dangling(HOME)
+    # for path in stow.get_dangling(HOME):
+        # path.unlink()
     stow.sync(
         FLAVORS.joinpath(HOSTNAME),
         FLAVORS.joinpath("common"),

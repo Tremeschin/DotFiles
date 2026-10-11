@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/Tremeschin/DotFiles/main/website/assets/logo.svg" width="240">
+  <img src="https://raw.githubusercontent.com/Tremeschin/DotFiles/main/dotfiles/assets/logo.svg" width="240">
   <h1>DotFiles</h1>
 </div>
 
