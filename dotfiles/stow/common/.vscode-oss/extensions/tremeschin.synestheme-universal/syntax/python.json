@@ -1,0 +1,137 @@
+{
+  "scopeName": "synestheme.injection.python",
+  "injectionSelector": "L:source.python -comment -string",
+  "patterns": [
+    {
+      "include": "#type-alias-keyword"
+    },
+    {
+      "include": "#typevar-definition"
+    },
+    {
+      "include": "#subscripted-type"
+    },
+    {
+      "include": "#pascal-call"
+    },
+    {
+      "include": "#typevar-annotation"
+    },
+    {
+      "include": "#pascal-name"
+    }
+  ],
+  "repository": {
+    "type-alias-keyword": {
+      "comment": "`type X = ...` statement: make `type` a declaration keyword instead of the builtin type() name",
+      "match": "^\\s*(type)(?=\\s+[A-Za-z_]\\w*\\s*(?:\\[[^\\]\\n]*\\])?\\s*=)",
+      "captures": {
+        "1": {
+          "name": "storage.type.alias.python"
+        }
+      }
+    },
+    "typevar-definition": {
+      "comment": "T = TypeVar(\"T\") / T_co = TypeVar(...)",
+      "match": "^\\s*([A-Z][0-9]?(?:_co|_contra)?)(?=\\s*=\\s*(?:[A-Za-z_]\\w*\\.)?(?:TypeVar|ParamSpec|TypeVarTuple)\\b)",
+      "captures": {
+        "1": {
+          "name": "entity.name.type.typevar.python"
+        }
+      }
+    },
+    "subscripted-type": {
+      "comment": "Generic[T], list[T], Optional[X], dict[K, V]: the name is a type, and single-letter TypeVars inside the brackets are types too",
+      "begin": "(?:(\\b(?!(?:True|False|None|NotImplemented|Ellipsis)\\b)[A-Z][A-Za-z0-9]*[a-z][A-Za-z0-9]*)|\\b(list|dict|set|frozenset|tuple|type)\\b)\\s*(\\[)",
+      "beginCaptures": {
+        "1": {
+          "name": "entity.name.type.pascal.python"
+        },
+        "2": {
+          "name": "support.type.python"
+        },
+        "3": {
+          "name": "punctuation.definition.list.begin.python"
+        }
+      },
+      "end": "\\]",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.list.end.python"
+        }
+      },
+      "name": "meta.typeargs.synestheme.python",
+      "patterns": [
+        {
+          "include": "#typevar"
+        },
+        {
+          "include": "#nested-brackets"
+        },
+        {
+          "include": "source.python"
+        }
+      ]
+    },
+    "nested-brackets": {
+      "begin": "\\[",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.list.begin.python"
+        }
+      },
+      "end": "\\]",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.list.end.python"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#typevar"
+        },
+        {
+          "include": "#nested-brackets"
+        },
+        {
+          "include": "source.python"
+        }
+      ]
+    },
+    "typevar": {
+      "match": "\\b[A-Z][0-9]?(?:_co|_contra)?\\b",
+      "name": "entity.name.type.typevar.python"
+    },
+    "typevar-annotation": {
+      "comment": "x: T and -> T",
+      "match": "(?<=: |-> )[A-Z][0-9]?(?:_co|_contra)?\\b",
+      "name": "entity.name.type.typevar.python"
+    },
+    "pascal-name": {
+      "comment": "PascalCase names are user types / classes (Second, Field(), Foo); ALL_CAPS constants and True/False/None are excluded",
+      "match": "\\b(?!(?:True|False|None|NotImplemented|Ellipsis)\\b)[A-Z][A-Za-z0-9]*[a-z][A-Za-z0-9]*\\b",
+      "name": "entity.name.type.pascal.python"
+    },
+    "pascal-call": {
+      "comment": "Field(...), Foo(x=1): colour the PascalCase name as a type but hand the arguments to the stock grammar so keyword arguments keep their colour (class/def headers are skipped)",
+      "name": "meta.function-call.python",
+      "begin": "(?<!class )(?<!def )(\\b(?!(?:True|False|None|NotImplemented|Ellipsis)\\b)[A-Z][A-Za-z0-9]*[a-z][A-Za-z0-9]*)(?=\\s*\\()",
+      "beginCaptures": {
+        "1": {
+          "name": "entity.name.type.pascal.python"
+        }
+      },
+      "end": "(\\))",
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.definition.arguments.end.python"
+        }
+      },
+      "patterns": [
+        {
+          "include": "source.python#function-arguments"
+        }
+      ]
+    }
+  }
+}

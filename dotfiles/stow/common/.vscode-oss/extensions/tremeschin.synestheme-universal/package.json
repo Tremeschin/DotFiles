@@ -1,0 +1,32 @@
+{
+  "name": "synestheme",
+  "version": "1.0.0",
+  "displayName": "Synestheme",
+  "description": "A Synesthesia inspired theme with strong and opinionated syntax colors (vscode-monokai-night fork)",
+  "publisher": "Tremeschin",
+  "repository": "github:Tremeschin/Synestheme",
+  "engines": {
+    "vscode": "*"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "contributes": {
+    "themes": [
+      {
+        "uiTheme": "vs-dark",
+        "label": "Synestheme Dark",
+        "path": "./themes/dark.json"
+      }
+    ],
+    "grammars": [
+      {
+        "scopeName": "synestheme.injection.python",
+        "path": "./syntax/python.json",
+        "injectTo": [
+          "source.python"
+        ]
+      }
+    ]
+  }
+}
