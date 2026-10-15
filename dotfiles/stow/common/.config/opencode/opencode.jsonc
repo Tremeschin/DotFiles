@@ -5,10 +5,6 @@
   "default_agent": "plan",
   "shell": "bash",
   "share": "manual",
-  "permissions": [
-    { "action": "shell", "resource": "git commit", "effect": "deny" },
-    { "action": "external_directory", "resource": "*", "effect": "deny" }
-  ],
   "provider": {
     "ollama": {
       "npm": "@ai-sdk/openai-compatible",
