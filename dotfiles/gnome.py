@@ -118,6 +118,7 @@ class Gsettings:
             "com.github.wwmm.easyeffects.desktop",
             "io.missioncenter.MissionCenter.desktop",
             "org.gnome.Console.desktop",
+            "code-oss.desktop",
             "dev.zed.Zed.desktop",
             "discord.desktop",
             "org.telegram.desktop.desktop",
