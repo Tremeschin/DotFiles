@@ -17,7 +17,7 @@ class Bubble:
         yield home
 
     def symlinks(self) -> Iterable[tuple[Path, Path]]:
-        """Symlinks (readl -> virtual)"""
+        """Symlinks (real -> virtual)"""
         yield (Path("/usr/bin"), Path("/bin"))
         yield (Path("/usr/bin"), Path("/sbin"))
         yield (Path("/usr/lib"), Path("/lib"))
@@ -32,10 +32,10 @@ class Bubble:
         """User readwrite bindings"""
         yield home.joinpath(".local/share/opencode")
         yield home.joinpath(".local/state/opencode")
-        yield home.joinpath(".config/opencode/")
 
     def ro(self) -> Iterable[Path]:
         """User readonly bindings"""
+        yield from home.joinpath(".config/opencode").rglob("*")
         yield home.joinpath(".cache/uv")
         yield home.joinpath(".local/share/uv")
         yield home.joinpath(".rustup")
@@ -65,13 +65,13 @@ class Bubble:
 
         # Read only binds
         for path in self.ro():
-            command += ("--ro-bind-try", path, path)
+            command += ("--ro-bind-try", path.resolve(), path)
         for path in self.sys_ro():
-            command += ("--ro-bind", path, path)
+            command += ("--ro-bind", path.resolve(), path)
 
         # Read write binds
         for path in self.rw():
-            command += ("--bind-try", path, path)
+            command += ("--bind-try", path.resolve(), path)
 
         command += (
             "--bind", cwd, cwd,
