@@ -16,6 +16,7 @@
     "explorer.autoReveal": false,
     "explorer.compactFolders": false,
     "explorer.confirmDelete": false,
+    "explorer.confirmDragAndDrop": false,
     "explorer.decorations.colors": false,
     "extensions.autoUpdate": "off",
     "files.insertFinalNewline": true,
@@ -47,11 +48,33 @@
     "workbench.tree.indent": 16,
     "workbench.tree.renderIndentGuides": "always",
     "[python]": {
+        "editor.formatOnSave": true,
         "editor.codeActionsOnSave": {
             "source.fixAll": "explicit",
             "source.fixAll.convertImportFormat": "always",
             "source.organizeImports": "explicit"
         },
-        "editor.formatOnSave": true
     },
+
+    // LaTeX Annoyances
+    "latex-workshop.latex.recipe.default": "tectonic",
+    "latex-workshop.latex.autoBuild.run": "onSave",
+    "latex-workshop.latex.outDir": "%DIR%",
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "tectonic",
+            "tools": ["tectonic"]
+        }
+    ],
+    "latex-workshop.latex.tools": [
+        {
+            "name": "tectonic",
+            "command": "tectonic",
+            "args": [
+                "-X", "compile",
+                "--outdir", "%OUTDIR%",
+                "%DOC_EXT%"
+            ],
+        }
+    ],
 }
