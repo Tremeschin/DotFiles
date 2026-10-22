@@ -24,7 +24,6 @@
     "files.trimTrailingWhitespace": true,
     "git.confirmSync": false,
     "git.enableCommitSigning": true,
-    "rust-analyzer.cargo.autoreload": false,
     "rust-analyzer.cargo.features": "all",
     "rust-analyzer.checkOnSave": false,
     "rust-analyzer.initializeStopped": true,
@@ -54,6 +53,21 @@
             "source.fixAll.convertImportFormat": "always",
             "source.organizeImports": "explicit"
         },
+    },
+
+    // Teach basedpyright
+    "basedpyright.importStrategy": "useBundled",
+    "python.pythonPath": "${workspaceFolder:Code}/.venv/bin/python",
+    "python.venvPath": "${workspaceFolder:Code}/.venv",
+    "ty.disableLanguageServices": true,
+    "basedpyright.analysis.diagnosticSeverityOverrides": {
+        "reportAny": false,
+        "reportExplicitAny": false,
+        "reportUnusedCallResult": false,
+        "reportUnusedImport": false,
+        "reportUnsafeMultipleInheritance": false, // https://github.com/DetachHead/basedpyright/issues/868
+        "reportPrivateLocalImportUsage": false,
+        "reportImplicitStringConcatenation": false,
     },
 
     // LaTeX Annoyances
