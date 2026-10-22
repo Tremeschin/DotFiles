@@ -49,7 +49,7 @@ class Gsettings:
 
         self.set("org.gnome.desktop.datetime", "automatic-timezone", "true")
         self.set("org.gnome.desktop.interface", "clock-format", "24h")
-        self.set("org.gtk.gtk4.settings.file-chooser", "clock-format", "24h")
+        self.set("org.gtk.gtk4.Settings.FileChooser", "clock-format", "24h")
 
         # See all apps in overview
         self.set("org.gnome.shell", "favorite-apps", "[]")
@@ -58,7 +58,7 @@ class Gsettings:
 
     def nautilus(self) -> Self:
         """Sane configurations for Nautilus"""
-        self.set("org.gtk.gtk4.settings.file-chooser", "sort-directories-first", "true")
+        self.set("org.gtk.gtk4.Settings.FileChooser", "sort-directories-first", "true")
         self.set("org.gnome.nautilus.preferences", "click-policy", "single")
         self.set("org.gnome.nautilus.preferences", "date-time-format", "detailed")
         return self
@@ -105,7 +105,7 @@ class Gsettings:
         self.set(base, "multi-monitor", "true")
         self.set(base, "shortcut-text", "")
         self.set(base, "show-mounts", "false")
-        self.set(base, "show-show-apps-button", "true")
+        self.set(base, "show-show-apps-button", "false")
         self.set(base, "show-trash", "false")
         self.set(base, "transparency-mode", "DYNAMIC")
         return self
@@ -113,6 +113,7 @@ class Gsettings:
     def pinned_apps(self) -> Self:
         self.set("org.gnome.shell", "favorite-apps", str([
             "firefox.desktop",
+            "librewolf.desktop",
             "org.gnome.Nautilus.desktop",
             "org.pulseaudio.pavucontrol.desktop",
             "com.github.wwmm.easyeffects.desktop",
@@ -120,16 +121,24 @@ class Gsettings:
             "org.gnome.Console.desktop",
             "code-oss.desktop",
             "dev.zed.Zed.desktop",
+            "steam.desktop",
             "discord.desktop",
             "org.telegram.desktop.desktop",
-            "steam.desktop",
         ]))
         return self
 
 gsettings = Gsettings()
-gsettings.pinned_apps()
-gsettings.ext_dash_to_dock()
+gsettings.font()
+gsettings.theme()
+gsettings.windows()
+gsettings.privacy()
+gsettings.annoyances()
+gsettings.nautilus()
+gsettings.rhythmbox()
+gsettings.keybindings()
 gsettings.extensions()
+gsettings.ext_dash_to_dock()
+gsettings.pinned_apps()
 
 class Gnome:
     ...
