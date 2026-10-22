@@ -15,6 +15,7 @@ dot      = "dotfiles.__main__:main"
 get-yay  = "dotfiles.pacman:Yay.get"
 dot-stow = "dotfiles.stow:main"
 sandbox  = "dotfiles.scripts.sandbox:main"
+ituna    = "dotfiles.scripts.ituna:main"
 
 [build-system]
 requires = ["hatchling"]
