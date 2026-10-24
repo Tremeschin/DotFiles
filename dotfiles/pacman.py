@@ -43,7 +43,7 @@ class Pacman:
     def orphans() -> list[Package]:
         """List of packages that are neither a dependency or explicitly installed"""
         with contextlib.suppress(subprocess.CalledProcessError):
-            return subprocess.check_output(("pacman", "-Qdtq")).decode().splitlines()
+            return subprocess.check_output(("pacman", "-Qdttq")).decode().splitlines()
         return []
 
     @staticmethod
