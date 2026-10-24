@@ -24,14 +24,8 @@
     "files.trimTrailingWhitespace": true,
     "git.confirmSync": false,
     "git.enableCommitSigning": true,
-    "rust-analyzer.cargo.features": "all",
-    "rust-analyzer.checkOnSave": false,
-    "rust-analyzer.initializeStopped": true,
-    "rust-analyzer.lens.implementations.enable": false,
     "scm.repositories.selectionMode": "single",
     "telemetry.telemetryLevel": "off",
-    "tinymist.preview.scrollSync": "never",
-    "tinymist.typingContinueCommentsOnNewline": false,
     "update.mode": "none",
     "window.commandCenter": false,
     "window.title": " ",
@@ -46,16 +40,14 @@
     "workbench.startupEditor": "none",
     "workbench.tree.indent": 16,
     "workbench.tree.renderIndentGuides": "always",
-    "[python]": {
-        "editor.formatOnSave": true,
-        "editor.codeActionsOnSave": {
-            "source.fixAll": "explicit",
-            "source.fixAll.convertImportFormat": "always",
-            "source.organizeImports": "explicit"
-        },
-    },
 
-    // Teach basedpyright
+    // Rust
+    "rust-analyzer.cargo.features": "all",
+    "rust-analyzer.checkOnSave": false,
+    "rust-analyzer.initializeStopped": true,
+    "rust-analyzer.lens.implementations.enable": false,
+
+    // Python
     "basedpyright.importStrategy": "useBundled",
     "python.pythonPath": "${workspaceFolder:Code}/.venv/bin/python",
     "python.venvPath": "${workspaceFolder:Code}/.venv",
@@ -69,8 +61,20 @@
         "reportPrivateLocalImportUsage": false,
         "reportImplicitStringConcatenation": false,
     },
+    "[python]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.fixAll": "explicit",
+            "source.fixAll.convertImportFormat": "always",
+            "source.organizeImports": "explicit"
+        },
+    },
 
-    // LaTeX Annoyances
+    // Typst
+    "tinymist.preview.scrollSync": "never",
+    "tinymist.typingContinueCommentsOnNewline": false,
+
+    // LaTeX
     "latex-workshop.latex.recipe.default": "tectonic",
     "latex-workshop.latex.autoBuild.run": "onSave",
     "latex-workshop.latex.outDir": "%DIR%",
