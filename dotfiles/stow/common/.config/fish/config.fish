@@ -22,3 +22,9 @@ if status is-interactive
 
     autoenv
 end
+
+function fish_user_key_bindings
+    # Finer autocompletions control
+    bind alt-left backward-path-component
+    bind alt-right forward-path-component
+end
