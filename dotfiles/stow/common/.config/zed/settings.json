@@ -53,7 +53,7 @@
         "source.fixAll.ruff": true,
         "source.organizeImports": true,
       },
-      "language_servers": ["!basedpyright", "ruff", "ty"],
+      "language_servers": ["pyrefly", "ruff"],
     },
     "Rust": {
       "format_on_save": "off",

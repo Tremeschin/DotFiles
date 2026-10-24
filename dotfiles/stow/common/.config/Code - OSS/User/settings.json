@@ -1,4 +1,5 @@
 {
+    // Native
     "chat.titleBar.openInAgentsWindow.enabled": false,
     "chat.titleBar.signIn.enabled": false,
     "editor.autoClosingBrackets": "beforeWhitespace",
@@ -46,21 +47,9 @@
     "rust-analyzer.checkOnSave": false,
     "rust-analyzer.initializeStopped": true,
     "rust-analyzer.lens.implementations.enable": false,
+    "rust-analyzer.rustfmt.extraArgs": ["+nightly"],
 
     // Python
-    "basedpyright.importStrategy": "useBundled",
-    "python.pythonPath": "${workspaceFolder:Code}/.venv/bin/python",
-    "python.venvPath": "${workspaceFolder:Code}/.venv",
-    "ty.disableLanguageServices": true,
-    "basedpyright.analysis.diagnosticSeverityOverrides": {
-        "reportAny": false,
-        "reportExplicitAny": false,
-        "reportUnusedCallResult": false,
-        "reportUnusedImport": false,
-        "reportUnsafeMultipleInheritance": false, // https://github.com/DetachHead/basedpyright/issues/868
-        "reportPrivateLocalImportUsage": false,
-        "reportImplicitStringConcatenation": false,
-    },
     "[python]": {
         "editor.formatOnSave": true,
         "editor.codeActionsOnSave": {
