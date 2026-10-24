@@ -17,6 +17,11 @@
         "uiTheme": "vs-dark",
         "label": "Synestheme Dark",
         "path": "./themes/dark.json"
+      },
+      {
+        "uiTheme": "vs",
+        "label": "Synestheme White",
+        "path": "./themes/white.json"
       }
     ],
     "grammars": [
