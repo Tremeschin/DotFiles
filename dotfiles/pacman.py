@@ -1,8 +1,7 @@
 import contextlib
-import os
 import shutil
 import subprocess
-from collections.abc import Callable, Iterable
+from collections.abc import Iterable
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import Literal
@@ -67,13 +66,14 @@ pacman.get_yay()
 
 @define
 class Plan:
-    target: set[str] = Factory(set[str])
+    target: set[str] = Factory(set)
 
     def __attrs_post_init__(self):
         self.target.update(set(self.apps()))
         self.target.update(set(self.audio()))
         self.target.update(set(self.aur()))
         self.target.update(set(self.base()))
+        self.target.update(set(self.development()))
         self.target.update(set(self.drivers()))
         self.target.update(set(self.fonts()))
         self.target.update(set(self.games()))
@@ -81,16 +81,21 @@ class Plan:
         self.target.update(set(self.terminal()))
 
     def base(self) -> Iterable[Package]:
+        yield "7zip"
         yield "base-devel"
         yield "base"
         yield "linux-firmware"
         yield "linux"
+        yield "man-db"
         yield "net-tools"
+        yield "networkmanager"
+        yield "realtime-privileges"
         yield "sshfs"
         yield "time"
         yield "tree"
         yield "ufw"
         yield "wget"
+        yield "zip"
         yield "zram-generator"
 
     def aur(self) -> Iterable[Package]:
@@ -101,7 +106,13 @@ class Plan:
         yield "yay-bin"
 
     def audio(self) -> Iterable[Package]:
+        yield "calf"
         yield "easyeffects"
+        yield "gst-libav"
+        yield "gst-plugin-pipewire"
+        yield "gst-plugins-base"
+        yield "gst-plugins-good"
+        yield "gst-plugins-ugly"
         yield "pavucontrol"
         yield "pipewire-alsa"
         yield "pipewire-jack"
@@ -132,7 +143,9 @@ class Plan:
         yield "file-roller"
         yield "gdm"
         yield "gnome-console"
+        yield "gnome-control-center"
         yield "gnome-desktop"
+        yield "gnome-disk-utility"
         yield "gnome-keyring"
         yield "gnome-session"
         yield "gnome-shell-extension-appindicator"
@@ -144,8 +157,10 @@ class Plan:
         yield "nautilus"
         yield "papers"
         yield "papirus-icon-theme"
+        yield "power-profiles-daemon"
 
     def terminal(self) -> Iterable[Package]:
+        yield "aria2"
         yield "cargo-deny"
         yield "cargo-msrv"
         yield "cargo-nextest"
@@ -154,9 +169,11 @@ class Plan:
         yield "croc"
         yield "evtest"
         yield "fastfetch"
+        yield "fish"
         yield "git"
         yield "htop"
         yield "hyperfine"
+        yield "imagemagick"
         yield "maturin"
         yield "mediainfo"
         yield "meson"
@@ -167,7 +184,6 @@ class Plan:
         yield "ollama"
         yield "ollama"
         yield "onefetch"
-        yield "openblas"
         yield "opencode"
         yield "ruff"
         yield "rust-analyzer"
@@ -180,16 +196,29 @@ class Plan:
         yield "ty"
         yield "typst"
         yield "uv"
+        yield "yt-dlp"
         yield "zed"
         yield "zoxide"
 
+    def development(self) -> Iterable[Package]:
+        yield "mingw-w64-binutils"
+        yield "mingw-w64-crt"
+        yield "mingw-w64-gcc"
+        yield "mingw-w64-headers"
+        yield "mingw-w64-winpthreads"
+        yield "openblas"
+
     def fonts(self) -> Iterable[Package]:
         yield "inter-font"
+        yield "noto-fonts-cjk"
+        yield "noto-fonts-emoji"
         yield "otf-font-awesome"
+        yield "ttf-cascadia-code-nerd"
         yield "ttf-nunito"
 
     def games(self) -> Iterable[Package]:
         yield "steam"
+        yield "warzone2100"
 
     def drivers(self) -> Iterable[Package]:
         yield "mesa-utils"
@@ -217,5 +246,10 @@ class Plan:
             if "AuthenticAMD" in cpuinfo:
                 yield "amd-ucode"
 
-dutch = Plan()
-pacman.sync(*sorted(dutch.target))
+
+def main():
+    dutch = Plan()
+    pacman.sync(*sorted(dutch.target))
+
+if __name__ == "__main__":
+    main()
