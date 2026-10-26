@@ -2,11 +2,12 @@ import contextlib
 import shutil
 import subprocess
 from collections.abc import Iterable
-from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import Literal
 
 from attrs import Factory, define
+
+from dotfiles import host
 
 type Package = str
 
@@ -89,12 +90,15 @@ class Plan:
         yield "man-db"
         yield "net-tools"
         yield "networkmanager"
+        yield "ntfs-3g"
         yield "realtime-privileges"
+        yield "rtkit"
         yield "sshfs"
         yield "time"
         yield "tree"
         yield "ufw"
         yield "wget"
+        yield "wireless-regdb"
         yield "zip"
         yield "zram-generator"
 
@@ -122,22 +126,29 @@ class Plan:
         yield "wireplumber"
 
     def apps(self) -> Iterable[Package]:
+        yield "code"
         yield "discord"
         yield "firefox"
         yield "inkscape"
+        yield "keepassxc"
+        yield "libreoffice-fresh"
         yield "librewolf"
         yield "mpv"
         yield "mullvad-vpn"
         yield "obs-studio"
+        yield "obsidian"
         yield "profile-sync-daemon"
         yield "qbittorrent"
         yield "syncthing"
         yield "telegram-desktop"
         yield "torbrowser-launcher"
+        yield "zed"
 
     def gnome(self) -> Iterable[Package]:
         yield "adw-gtk-theme"
         yield "baobab"
+        yield "bluez-utils"
+        yield "decibels"
         yield "extension-manager"
         yield "ffmpegthumbnailer"
         yield "file-roller"
@@ -161,11 +172,6 @@ class Plan:
 
     def terminal(self) -> Iterable[Package]:
         yield "aria2"
-        yield "cargo-deny"
-        yield "cargo-msrv"
-        yield "cargo-nextest"
-        yield "cargo-outdated"
-        yield "code"
         yield "croc"
         yield "evtest"
         yield "fastfetch"
@@ -174,20 +180,17 @@ class Plan:
         yield "htop"
         yield "hyperfine"
         yield "imagemagick"
-        yield "maturin"
         yield "mediainfo"
-        yield "meson"
         yield "micro"
         yield "miniserve"
         yield "nano"
         yield "ollama-vulkan"
         yield "ollama"
-        yield "ollama"
         yield "onefetch"
         yield "opencode"
         yield "ruff"
         yield "rust-analyzer"
-        yield "rustup"
+        yield "scrcpy"
         yield "starship"
         yield "tealdeer"
         yield "tectonic"
@@ -195,18 +198,27 @@ class Plan:
         yield "tokei"
         yield "ty"
         yield "typst"
+        yield "typstyle"
         yield "uv"
         yield "yt-dlp"
-        yield "zed"
         yield "zoxide"
 
     def development(self) -> Iterable[Package]:
+        yield "cargo-deny"
+        yield "cargo-msrv"
+        yield "cargo-nextest"
+        yield "cargo-outdated"
+        yield "maturin"
+        yield "meson"
         yield "mingw-w64-binutils"
         yield "mingw-w64-crt"
         yield "mingw-w64-gcc"
         yield "mingw-w64-headers"
         yield "mingw-w64-winpthreads"
+        yield "mold"
         yield "openblas"
+        yield "wild"
+        yield "rustup"
 
     def fonts(self) -> Iterable[Package]:
         yield "inter-font"
@@ -217,6 +229,7 @@ class Plan:
         yield "ttf-nunito"
 
     def games(self) -> Iterable[Package]:
+        yield "prismlauncher"
         yield "steam"
         yield "warzone2100"
 
@@ -239,13 +252,6 @@ class Plan:
             yield "lib32-nvidia-utils"
             yield "nvidia-open"
             yield "nvidia-utils"
-
-        # Avoid frying the CPU
-        if cpuinfo := Path("/proc/cpuinfo").read_text():
-            if "GenuineIntel" in cpuinfo:
-                yield "intel-ucode"
-            if "AuthenticAMD" in cpuinfo:
-                yield "amd-ucode"
 
 
 def main():
