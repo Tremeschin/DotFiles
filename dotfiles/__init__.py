@@ -1,7 +1,3 @@
-import os
-from pathlib import Path
+from dotfiles.host import Host
 
-HOSTNAME: str = os.uname().nodename
-"""Machine hostname as in `uname -n`"""
-
-HOME: Path = Path.home()
+host = Host()

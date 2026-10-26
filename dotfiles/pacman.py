@@ -225,19 +225,20 @@ class Plan:
         yield "mesa"
         yield "vulkan-headers"
 
-        # Search PCI hardware
-        for device in Path("/sys/bus/pci/devices").iterdir():
-            d_class  = int(device.joinpath("class" ).read_text(), 16)
-            d_vendor = int(device.joinpath("vendor").read_text(), 16)
+        match host.hardware.cpu:
+            case "amd":
+                yield "amd-ucode"
+            case "intel":
+                yield "intel-ucode"
+            case _:
+                pass
 
-            # Display Controllers
-            if d_class >> 16 == 0x03:
-                if d_vendor == 0x10de: # novideo
-                    yield "cuda"
-                    yield "cudnn"
-                    yield "lib32-nvidia-utils"
-                    yield "nvidia-open"
-                    yield "nvidia-utils"
+        if host.hardware.gpu == "nvidia":
+            yield "cuda"
+            yield "cudnn"
+            yield "lib32-nvidia-utils"
+            yield "nvidia-open"
+            yield "nvidia-utils"
 
         # Avoid frying the CPU
         if cpuinfo := Path("/proc/cpuinfo").read_text():

@@ -94,12 +94,15 @@ class Gsettings:
     def ext_dash_to_dock(self) -> Self:
         base = "org.gnome.shell.extensions.dash-to-dock"
         self.set(base, "apply-custom-theme", "false")
+        self.set(base, "autohide", "true")
         self.set(base, "custom-theme-shrink", "true")
         self.set(base, "customize-alphas", "true")
         self.set(base, "dance-urgent-applications", "false")
         self.set(base, "disable-overview-on-startup", "true")
         self.set(base, "hotkeys-overlay", "false")
         self.set(base, "hotkeys-show-dock", "false")
+        self.set(base, "intellihide-mode", "ALL_WINDOWS")
+        self.set(base, "intellihide", "true")
         self.set(base, "max-alpha", "0.80")
         self.set(base, "min-alpha", "0.15")
         self.set(base, "multi-monitor", "true")
