@@ -49,214 +49,240 @@ class Pacman:
     @staticmethod
     def mark(*packages: Package, kind: Literal["asdeps", "asexplicit"]) -> None:
         """Set the install reason for packages"""
-        subprocess.check_call(("sudo", "pacman", "-D", f"--{kind}", "--quiet", *packages))
-
-    def sync(self, *packages: Package):
-        self.install(*packages)
-        self.mark(*self.installed(), kind="asdeps")
-        self.mark(*packages, kind="asexplicit")
-
-        if orphans := self.orphans():
-            print(f"\nOrphans {orphans}\n")
-            self.remove(*orphans)
+        subprocess.check_call((
+            "sudo", "pacman", "-D", f"--{kind}", "--quiet",
+            *(x for x in packages if x in Pacman.installed())
+        ))
 
 pacman = Pacman(helper="yay")
 pacman.get_yay()
 
 # ---------------------------------------------------------------------------- #
 
+@define(hash=False)
+class Synckage:
+    """Pacsync metadata"""
+
+    name: Package
+
+    def __hash__(self) -> int:
+        return hash(self.name)
+
+    aur: bool = False
+    """Sources from AUR"""
+
+    optional: bool = False
+    """Neither sync or remove (dangle)"""
+
+
 @define
-class Plan:
-    target: set[str] = Factory(set)
+class Pacsync:
+    target: set[Synckage] = Factory(set)
 
     def __attrs_post_init__(self):
-        self.target.update(set(self.apps()))
-        self.target.update(set(self.audio()))
-        self.target.update(set(self.aur()))
-        self.target.update(set(self.base()))
-        self.target.update(set(self.development()))
-        self.target.update(set(self.drivers()))
-        self.target.update(set(self.fonts()))
-        self.target.update(set(self.games()))
-        self.target.update(set(self.gnome()))
-        self.target.update(set(self.terminal()))
+        self.target.update(self.apps())
+        self.target.update(self.audio())
+        self.target.update(self.aur())
+        self.target.update(self.base())
+        self.target.update(self.development())
+        self.target.update(self.drivers())
+        self.target.update(self.fonts())
+        self.target.update(self.games())
+        self.target.update(self.gnome())
+        self.target.update(self.terminal())
 
-    def base(self) -> Iterable[Package]:
-        yield "7zip"
-        yield "base-devel"
-        yield "base"
-        yield "linux-firmware"
-        yield "linux"
-        yield "man-db"
-        yield "net-tools"
-        yield "networkmanager"
-        yield "ntfs-3g"
-        yield "realtime-privileges"
-        yield "rtkit"
-        yield "sshfs"
-        yield "time"
-        yield "tree"
-        yield "ufw"
-        yield "wget"
-        yield "wireless-regdb"
-        yield "zip"
-        yield "zram-generator"
+    def sync(self):
+        pacman.install(*(pkg.name for pkg in self.target if not pkg.optional))
+        pacman.mark(*pacman.installed(), kind="asdeps")
+        pacman.mark(*(pkg.name for pkg in self.target), kind="asexplicit")
 
-    def aur(self) -> Iterable[Package]:
-        yield "downgrade"
-        yield "gnome-shell-extension-dash-to-dock"
-        yield "pcsx2-git"
-        yield "qview"
-        yield "yay-bin"
+        if orphans := pacman.orphans():
+            print(f"\nOrphans {orphans}\n")
+            pacman.remove(*orphans)
 
-    def audio(self) -> Iterable[Package]:
-        yield "calf"
-        yield "easyeffects"
-        yield "gst-libav"
-        yield "gst-plugin-pipewire"
-        yield "gst-plugins-base"
-        yield "gst-plugins-good"
-        yield "gst-plugins-ugly"
-        yield "pavucontrol"
-        yield "pipewire-alsa"
-        yield "pipewire-jack"
-        yield "pipewire-pulse"
-        yield "pipewire"
-        yield "rhythmbox"
-        yield "wireplumber"
+    def base(self) -> Iterable[Synckage]:
+        yield Synckage("7zip")
+        yield Synckage("base-devel")
+        yield Synckage("base")
+        yield Synckage("linux-firmware")
+        yield Synckage("linux")
+        yield Synckage("man-db")
+        yield Synckage("net-tools")
+        yield Synckage("networkmanager")
+        yield Synckage("ntfs-3g")
+        yield Synckage("realtime-privileges")
+        yield Synckage("rtkit")
+        yield Synckage("sshfs")
+        yield Synckage("time")
+        yield Synckage("tree")
+        yield Synckage("ufw")
+        yield Synckage("wget")
+        yield Synckage("zip")
+        yield Synckage("zram-generator")
 
-    def apps(self) -> Iterable[Package]:
-        yield "code"
-        yield "discord"
-        yield "firefox"
-        yield "inkscape"
-        yield "keepassxc"
-        yield "libreoffice-fresh"
-        yield "librewolf"
-        yield "mpv"
-        yield "mullvad-vpn"
-        yield "obs-studio"
-        yield "obsidian"
-        yield "profile-sync-daemon"
-        yield "qbittorrent"
-        yield "syncthing"
-        yield "telegram-desktop"
-        yield "torbrowser-launcher"
-        yield "zed"
+        if host.laptop:
+            yield Synckage("wireless-regdb")
 
-    def gnome(self) -> Iterable[Package]:
-        yield "adw-gtk-theme"
-        yield "baobab"
-        yield "bluez-utils"
-        yield "decibels"
-        yield "extension-manager"
-        yield "ffmpegthumbnailer"
-        yield "file-roller"
-        yield "gdm"
-        yield "gnome-console"
-        yield "gnome-control-center"
-        yield "gnome-desktop"
-        yield "gnome-disk-utility"
-        yield "gnome-keyring"
-        yield "gnome-session"
-        yield "gnome-shell-extension-appindicator"
-        yield "gnome-shell-extensions"
-        yield "gnome-shell"
-        yield "gnome-tweaks"
-        yield "mission-center"
-        yield "mutter"
-        yield "nautilus"
-        yield "papers"
-        yield "papirus-icon-theme"
-        yield "power-profiles-daemon"
+    def aur(self) -> Iterable[Synckage]:
+        yield Synckage("downgrade", aur=True)
+        yield Synckage("gnome-shell-extension-dash-to-dock", aur=True)
+        yield Synckage("pcsx2-git", aur=True)
+        yield Synckage("qview", aur=True)
+        yield Synckage("yay-bin", aur=True)
 
-    def terminal(self) -> Iterable[Package]:
-        yield "aria2"
-        yield "croc"
-        yield "evtest"
-        yield "fastfetch"
-        yield "fish"
-        yield "git"
-        yield "htop"
-        yield "hyperfine"
-        yield "imagemagick"
-        yield "mediainfo"
-        yield "micro"
-        yield "miniserve"
-        yield "nano"
-        yield "ollama-vulkan"
-        yield "ollama"
-        yield "onefetch"
-        yield "opencode"
-        yield "ruff"
-        yield "rust-analyzer"
-        yield "scrcpy"
-        yield "starship"
-        yield "tealdeer"
-        yield "tectonic"
-        yield "tinymist"
-        yield "tokei"
-        yield "ty"
-        yield "typst"
-        yield "typstyle"
-        yield "uv"
-        yield "yt-dlp"
-        yield "zoxide"
+    def audio(self) -> Iterable[Synckage]:
+        yield Synckage("calf")
+        yield Synckage("easyeffects")
+        yield Synckage("gst-libav")
+        yield Synckage("gst-plugin-pipewire")
+        yield Synckage("gst-plugins-base")
+        yield Synckage("gst-plugins-good")
+        yield Synckage("gst-plugins-ugly")
+        yield Synckage("pavucontrol")
+        yield Synckage("pipewire-alsa")
+        yield Synckage("pipewire-jack")
+        yield Synckage("pipewire-pulse")
+        yield Synckage("pipewire")
+        yield Synckage("rhythmbox")
+        yield Synckage("wireplumber")
 
-    def development(self) -> Iterable[Package]:
-        yield "cargo-deny"
-        yield "cargo-msrv"
-        yield "cargo-nextest"
-        yield "cargo-outdated"
-        yield "maturin"
-        yield "meson"
-        yield "mingw-w64-binutils"
-        yield "mingw-w64-crt"
-        yield "mingw-w64-gcc"
-        yield "mingw-w64-headers"
-        yield "mingw-w64-winpthreads"
-        yield "mold"
-        yield "openblas"
-        yield "wild"
-        yield "rustup"
+    def apps(self) -> Iterable[Synckage]:
+        yield Synckage("code")
+        yield Synckage("discord")
+        yield Synckage("firefox")
+        yield Synckage("inkscape")
+        yield Synckage("keepassxc")
+        yield Synckage("libreoffice-fresh")
+        yield Synckage("librewolf")
+        yield Synckage("mpv")
+        yield Synckage("mullvad-vpn")
+        yield Synckage("obs-studio")
+        yield Synckage("obsidian")
+        yield Synckage("profile-sync-daemon")
+        yield Synckage("qbittorrent")
+        yield Synckage("syncthing")
+        yield Synckage("telegram-desktop")
+        yield Synckage("torbrowser-launcher")
+        yield Synckage("zed")
 
-    def fonts(self) -> Iterable[Package]:
-        yield "inter-font"
-        yield "noto-fonts-cjk"
-        yield "noto-fonts-emoji"
-        yield "otf-font-awesome"
-        yield "ttf-cascadia-code-nerd"
-        yield "ttf-nunito"
+    def gnome(self) -> Iterable[Synckage]:
+        yield Synckage("adw-gtk-theme")
+        yield Synckage("baobab")
+        yield Synckage("bluez-utils")
+        yield Synckage("decibels")
+        yield Synckage("extension-manager")
+        yield Synckage("ffmpegthumbnailer")
+        yield Synckage("file-roller")
+        yield Synckage("gdm")
+        yield Synckage("gnome-console")
+        yield Synckage("gnome-control-center")
+        yield Synckage("gnome-desktop")
+        yield Synckage("gnome-disk-utility")
+        yield Synckage("gnome-keyring")
+        yield Synckage("gnome-session")
+        yield Synckage("gnome-shell-extension-appindicator")
+        yield Synckage("gnome-shell-extensions")
+        yield Synckage("gnome-shell")
+        yield Synckage("gnome-tweaks")
+        yield Synckage("mission-center")
+        yield Synckage("mutter")
+        yield Synckage("nautilus")
+        yield Synckage("papers")
+        yield Synckage("papirus-icon-theme")
+        yield Synckage("power-profiles-daemon")
 
-    def games(self) -> Iterable[Package]:
-        yield "prismlauncher"
-        yield "steam"
-        yield "warzone2100"
+    def terminal(self) -> Iterable[Synckage]:
+        yield Synckage("aria2")
+        yield Synckage("croc")
+        yield Synckage("evtest")
+        yield Synckage("fastfetch")
+        yield Synckage("fish")
+        yield Synckage("git")
+        yield Synckage("htop")
+        yield Synckage("hyperfine")
+        yield Synckage("imagemagick")
+        yield Synckage("mediainfo")
+        yield Synckage("micro")
+        yield Synckage("miniserve")
+        yield Synckage("nano")
+        yield Synckage("ollama-vulkan")
+        yield Synckage("ollama")
+        yield Synckage("onefetch")
+        yield Synckage("opencode")
+        yield Synckage("ruff")
+        yield Synckage("rust-analyzer")
+        yield Synckage("scrcpy")
+        yield Synckage("starship")
+        yield Synckage("tealdeer")
+        yield Synckage("tectonic")
+        yield Synckage("tinymist")
+        yield Synckage("tokei")
+        yield Synckage("ty")
+        yield Synckage("typst")
+        yield Synckage("typstyle")
+        yield Synckage("uv")
+        yield Synckage("yt-dlp")
+        yield Synckage("zoxide")
 
-    def drivers(self) -> Iterable[Package]:
-        yield "mesa-utils"
-        yield "mesa"
-        yield "vulkan-headers"
+    def development(self) -> Iterable[Synckage]:
+        yield Synckage("cargo-deny")
+        yield Synckage("cargo-msrv")
+        yield Synckage("cargo-nextest")
+        yield Synckage("cargo-outdated")
+        yield Synckage("maturin")
+        yield Synckage("meson")
+        yield Synckage("mingw-w64-binutils")
+        yield Synckage("mingw-w64-crt")
+        yield Synckage("mingw-w64-gcc")
+        yield Synckage("mingw-w64-headers")
+        yield Synckage("mingw-w64-winpthreads")
+        yield Synckage("mold")
+        yield Synckage("openblas")
+        yield Synckage("wild")
+        yield Synckage("rustup")
 
-        match host.hardware.cpu:
-            case "amd":
-                yield "amd-ucode"
-            case "intel":
-                yield "intel-ucode"
-            case _:
-                pass
+        if host.name == "sweeper":
+            yield Synckage("intel-oneapi-mkl")
 
-        if host.hardware.gpu == "nvidia":
-            yield "cuda"
-            yield "cudnn"
-            yield "lib32-nvidia-utils"
-            yield "nvidia-open"
-            yield "nvidia-utils"
+    def fonts(self) -> Iterable[Synckage]:
+        yield Synckage("inter-font")
+        yield Synckage("noto-fonts-cjk")
+        yield Synckage("noto-fonts-emoji")
+        yield Synckage("otf-font-awesome")
+        yield Synckage("ttf-cascadia-code-nerd")
+        yield Synckage("ttf-nunito")
+
+    def games(self) -> Iterable[Synckage]:
+        yield Synckage("prismlauncher", optional=True)
+        yield Synckage("steam")
+        yield Synckage("warzone2100", optional=True)
+
+    def drivers(self) -> Iterable[Synckage]:
+        yield Synckage("vulkan-headers")
+
+        for vendor in host.hardware.cpu:
+            if vendor == "amd":
+                yield Synckage("amd-ucode")
+            elif vendor == "intel":
+                yield Synckage("intel-ucode")
+
+        for vendor in host.hardware.gpu:
+            if vendor == "nvidia":
+                yield Synckage("cuda")
+                yield Synckage("nvidia-open")
+                yield Synckage("nvidia-utils")
+                yield Synckage("lib32-nvidia-utils")
+            elif vendor == "amd":
+                yield Synckage("mesa")
+                yield Synckage("vulkan-radeon")
+            elif vendor == "intel":
+                yield Synckage("mesa")
+                yield Synckage("vulkan-intel")
 
 
 def main():
-    dutch = Plan()
-    pacman.sync(*sorted(dutch.target))
+    dutch = Pacsync()
+    dutch.sync()
 
 if __name__ == "__main__":
     main()
