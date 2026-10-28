@@ -1,13 +1,23 @@
 from collections.abc import Iterable
 from pathlib import Path
 
-from dotfiles import HOME, HOSTNAME
+from attrs import Factory, define
 
 FLAVORS: Path = Path(__file__).parent
 """Common directory storing dotfiles"""
 
-
+@define
 class Stow:
+    """
+    Symlink and sync all source dotfiles into target trees:
+    - Prioritizes the first relative file in sources
+    - Automatic conversion if contents are the same
+    - Intentionally doesn't support adoption
+    """
+
+    target: Path = Factory(Path.home)
+
+    sources: list[Path] = Factory(list)
 
     @staticmethod
     def get_dotfiles(path: Path) -> Iterable[Path]:
@@ -34,21 +44,10 @@ class Stow:
             except FileNotFoundError:
                 yield item
 
-    @staticmethod
-    def sync(
-        *sources: Path,
-        target: Path=HOME,
-        dry: bool=False,
-    ):
-        """
-        Symlink and sync all source dotfiles into target trees:
-        - Prioritizes the first relative file in sources
-        - Automatic conversion if contents are the same
-        - Intentionally doesn't support adoption
-        """
+    def sync(self, dry: bool=False):
 
         # Safety checks
-        if any(target.is_relative_to(x) for x in sources):
+        if any(self.target.is_relative_to(x) for x in self.sources):
             raise RuntimeError("Cannot sync to a path inside sources")
 
         def status(kind: str) -> None:
@@ -58,7 +57,7 @@ class Stow:
         # Visited relative dotfiles
         seen: set[Path] = set()
 
-        for root in sources:
+        for root in self.sources:
             if not root.exists():
                 continue
             for item in root.rglob("*"):
@@ -66,7 +65,7 @@ class Stow:
                     continue
 
                 relative = item.relative_to(root)
-                dotfile = target.joinpath(relative)
+                dotfile = self.target.joinpath(relative)
 
                 # Skips and priority
                 if relative in seen:
@@ -98,20 +97,3 @@ class Stow:
                 if not dry:
                     dotfile.parent.mkdir(parents=True, exist_ok=True)
                     dotfile.symlink_to(item)
-
-# Static instance
-stow = Stow()
-
-# Todo: basic cli
-def main():
-    # for path in stow.get_dangling(HOME):
-        # path.unlink()
-    stow.sync(
-        FLAVORS.joinpath(HOSTNAME),
-        FLAVORS.joinpath("common"),
-        target=HOME,
-        dry=False,
-    )
-
-if __name__ == "__main__":
-    main()

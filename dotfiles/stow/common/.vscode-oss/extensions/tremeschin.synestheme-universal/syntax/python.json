@@ -1,6 +1,6 @@
 {
   "scopeName": "synestheme.injection.python",
-  "injectionSelector": "L:source.python -comment -string",
+  "injectionSelector": "L:source.python -comment -string -meta.fstring.python",
   "patterns": [
     {
       "include": "#type-alias-keyword"

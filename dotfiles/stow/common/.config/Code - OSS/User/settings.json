@@ -31,6 +31,7 @@
     "window.commandCenter": false,
     "window.title": " ",
     "window.zoomLevel": 2,
+    "workbench.activityBar.location": "top",
     "workbench.colorTheme": "Synestheme Dark",
     "workbench.editor.useModal": "off",
     "workbench.enableExperiments": false,

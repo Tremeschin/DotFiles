@@ -7,9 +7,7 @@ from typing import Literal
 
 from attrs import Factory, define
 
-from dotfiles import host
-
-type Package = str
+type PackageName = str
 
 @define
 class Pacman:
@@ -27,35 +25,32 @@ class Pacman:
             subprocess.check_call(("git", "clone", "https://aur.archlinux.org/yay-bin.git", path))
             subprocess.check_call(("makepkg", "-si"), cwd=path)
 
-    def install(self, *packages: Package):
+    def install(self, *packages: PackageName):
         subprocess.check_call((self.helper, "-S", "--needed", *packages))
 
     @staticmethod
-    def remove(*packages: Package):
+    def remove(*packages: PackageName):
         subprocess.check_call(("sudo", "pacman", "-Rns", "--confirm", *packages))
 
     @staticmethod
-    def installed() -> list[Package]:
+    def installed() -> list[PackageName]:
         """List of all currently installed packages"""
         return subprocess.check_output(("pacman", "-Qq")).decode().splitlines()
 
     @staticmethod
-    def orphans() -> list[Package]:
+    def orphans() -> list[PackageName]:
         """List of packages that are neither a dependency or explicitly installed"""
         with contextlib.suppress(subprocess.CalledProcessError):
             return subprocess.check_output(("pacman", "-Qdttq")).decode().splitlines()
         return []
 
     @staticmethod
-    def mark(*packages: Package, kind: Literal["asdeps", "asexplicit"]) -> None:
+    def mark(*packages: PackageName, kind: Literal["asdeps", "asexplicit"]) -> None:
         """Set the install reason for packages"""
         subprocess.check_call((
             "sudo", "pacman", "-D", f"--{kind}", "--quiet",
             *(x for x in packages if x in Pacman.installed())
         ))
-
-pacman = Pacman(helper="yay")
-pacman.get_yay()
 
 # ---------------------------------------------------------------------------- #
 
@@ -63,7 +58,7 @@ pacman.get_yay()
 class Synckage:
     """Pacsync metadata"""
 
-    name: Package
+    name: PackageName
 
     def __hash__(self) -> int:
         return hash(self.name)
@@ -91,7 +86,7 @@ class Pacsync:
         self.target.update(self.gnome())
         self.target.update(self.terminal())
 
-    def sync(self):
+    def sync(self, pacman: Pacman):
         pacman.install(*(pkg.name for pkg in self.target if not pkg.optional))
         pacman.mark(*pacman.installed(), kind="asdeps")
         pacman.mark(*(pkg.name for pkg in self.target), kind="asexplicit")
@@ -100,7 +95,8 @@ class Pacsync:
             print(f"\nOrphans {orphans}\n")
             pacman.remove(*orphans)
 
-    def base(self) -> Iterable[Synckage]:
+    @staticmethod
+    def base() -> Iterable[Synckage]:
         yield Synckage("7zip")
         yield Synckage("base-devel")
         yield Synckage("base")
@@ -123,14 +119,16 @@ class Pacsync:
         if host.laptop:
             yield Synckage("wireless-regdb")
 
-    def aur(self) -> Iterable[Synckage]:
+    @staticmethod
+    def aur() -> Iterable[Synckage]:
         yield Synckage("downgrade", aur=True)
         yield Synckage("gnome-shell-extension-dash-to-dock", aur=True)
         yield Synckage("pcsx2-git", aur=True)
         yield Synckage("qview", aur=True)
         yield Synckage("yay-bin", aur=True)
 
-    def audio(self) -> Iterable[Synckage]:
+    @staticmethod
+    def audio() -> Iterable[Synckage]:
         yield Synckage("calf")
         yield Synckage("easyeffects")
         yield Synckage("gst-libav")
@@ -146,7 +144,8 @@ class Pacsync:
         yield Synckage("rhythmbox")
         yield Synckage("wireplumber")
 
-    def apps(self) -> Iterable[Synckage]:
+    @staticmethod
+    def apps() -> Iterable[Synckage]:
         yield Synckage("code")
         yield Synckage("discord")
         yield Synckage("firefox")
@@ -165,7 +164,8 @@ class Pacsync:
         yield Synckage("torbrowser-launcher")
         yield Synckage("zed")
 
-    def gnome(self) -> Iterable[Synckage]:
+    @staticmethod
+    def gnome() -> Iterable[Synckage]:
         yield Synckage("adw-gtk-theme")
         yield Synckage("baobab")
         yield Synckage("bluez-utils")
@@ -191,7 +191,8 @@ class Pacsync:
         yield Synckage("papirus-icon-theme")
         yield Synckage("power-profiles-daemon")
 
-    def terminal(self) -> Iterable[Synckage]:
+    @staticmethod
+    def terminal() -> Iterable[Synckage]:
         yield Synckage("aria2")
         yield Synckage("croc")
         yield Synckage("evtest")
@@ -224,7 +225,8 @@ class Pacsync:
         yield Synckage("yt-dlp")
         yield Synckage("zoxide")
 
-    def development(self) -> Iterable[Synckage]:
+    @staticmethod
+    def development() -> Iterable[Synckage]:
         yield Synckage("cargo-deny")
         yield Synckage("cargo-msrv")
         yield Synckage("cargo-nextest")
@@ -241,10 +243,8 @@ class Pacsync:
         yield Synckage("wild")
         yield Synckage("rustup")
 
-        if host.name == "sweeper":
-            yield Synckage("intel-oneapi-mkl")
-
-    def fonts(self) -> Iterable[Synckage]:
+    @staticmethod
+    def fonts() -> Iterable[Synckage]:
         yield Synckage("inter-font")
         yield Synckage("noto-fonts-cjk")
         yield Synckage("noto-fonts-emoji")
@@ -252,12 +252,20 @@ class Pacsync:
         yield Synckage("ttf-cascadia-code-nerd")
         yield Synckage("ttf-nunito")
 
-    def games(self) -> Iterable[Synckage]:
+    @staticmethod
+    def games() -> Iterable[Synckage]:
         yield Synckage("prismlauncher", optional=True)
         yield Synckage("steam")
         yield Synckage("warzone2100", optional=True)
 
-    def drivers(self) -> Iterable[Synckage]:
+    def nvidia() -> Iterable[Synckage]:
+        yield Synckage("cuda")
+        yield Synckage("nvidia-open")
+        yield Synckage("nvidia-utils")
+        yield Synckage("lib32-nvidia-utils")
+
+    @staticmethod
+    def drivers() -> Iterable[Synckage]:
         yield Synckage("vulkan-headers")
 
         for vendor in host.hardware.cpu:
@@ -268,21 +276,10 @@ class Pacsync:
 
         for vendor in host.hardware.gpu:
             if vendor == "nvidia":
-                yield Synckage("cuda")
-                yield Synckage("nvidia-open")
-                yield Synckage("nvidia-utils")
-                yield Synckage("lib32-nvidia-utils")
+                yield from Pacsync.nvidia()
             elif vendor == "amd":
                 yield Synckage("mesa")
                 yield Synckage("vulkan-radeon")
             elif vendor == "intel":
                 yield Synckage("mesa")
                 yield Synckage("vulkan-intel")
-
-
-def main():
-    dutch = Pacsync()
-    dutch.sync()
-
-if __name__ == "__main__":
-    main()

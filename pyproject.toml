@@ -7,16 +7,15 @@ license     = "MIT"
 dependencies = [
     "attrs",
     "cyclopts",
+    "parsenaut",
     "pydantic",
 ]
 
 [project.scripts]
-dot      = "dotfiles.__main__:main"
-get-yay  = "dotfiles.pacman:Yay.get"
-dot-stow = "dotfiles.stow:main"
-sandbox  = "dotfiles.scripts.sandbox:main"
-ituna    = "dotfiles.scripts.ituna:main"
-pacsync  = "dotfiles.pacman:main"
+dot = "dotfiles.__main__:main"
+dot-stow = "dotfiles.stow.__init__:main"
+sandbox = "dotfiles.scripts.sandbox:main"
+ituna   = "dotfiles.scripts.ituna:main"
 
 [build-system]
 requires = ["hatchling"]

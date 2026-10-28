@@ -21,7 +21,7 @@ class Hardware:
 
 
 @define
-class Host:
+class System:
 
     name: Hostname = os.uname().nodename # type: ignore
     """Machine hostname as in `uname -n`"""
@@ -58,5 +58,3 @@ class Host:
     @property
     def desktop(self) -> bool:
         return not self.laptop
-
-host = Host()
