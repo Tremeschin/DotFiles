@@ -13,7 +13,6 @@ dependencies = [
 
 [project.scripts]
 dot = "dotfiles.__main__:main"
-dot-stow = "dotfiles.stow.__init__:main"
 sandbox = "dotfiles.scripts.sandbox:main"
 ituna   = "dotfiles.scripts.ituna:main"
 

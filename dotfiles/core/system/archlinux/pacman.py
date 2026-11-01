@@ -11,7 +11,10 @@ type PackageName = str
 
 @define
 class Pacman:
-    helper: Literal["pacman", "paru", "yay"] = "pacman"
+    """Arch Linux Package Manager"""
+
+    helper: Literal["pacman", "yay"] = "pacman"
+    """Compatible pacman tool to use"""
 
     @staticmethod
     def get_yay():

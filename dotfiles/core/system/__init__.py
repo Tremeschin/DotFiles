@@ -5,6 +5,8 @@ from attrs import Factory, define, field
 from cyclopts import App as Cyclopts
 from parsenaut.cyclopts import Launcher
 
+from dotfiles.stow import Stow
+
 type VendorCPU = Literal["amd", "intel"]
 type VendorGPU = Literal["amd", "intel", "nvidia"]
 
@@ -20,7 +22,7 @@ class System(ABC):
         factory=lambda: Launcher.chain(Cyclopts(
             result_action="return_value",
             version_flags=[],
-            # help_flags=[],
+            help_flags=[],
             usage="",
         ),
     ))
@@ -31,3 +33,15 @@ class System(ABC):
     @abstractmethod
     def commands(self):
         ...
+
+@define
+class Linux(System):
+    stow: Stow = Factory(Stow)
+
+@define
+class Windows(System):
+    ...
+
+@define
+class MacOS(System):
+    ...

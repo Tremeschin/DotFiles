@@ -8,6 +8,6 @@ def main():
     launcher = Launcher(keyword="System")
     launcher.smart(
         package=Path(__file__).parent,
-        directories=["system"]
+        directories=["machine"]
     )
     launcher.cli(sys.argv[1:])

@@ -1,3 +1,4 @@
+import contextlib
 import os
 import subprocess
 import sys
@@ -21,7 +22,8 @@ def main():
             )
 
             # Visualize
-            subprocess.run(
-                args=("tuna", file.name),
-                check=True,
-            )
+            with contextlib.suppress(KeyboardInterrupt):
+                subprocess.run(
+                    args=("tuna", file.name),
+                    check=True,
+                )

@@ -58,6 +58,9 @@
     "Rust": {
       "format_on_save": "off",
     },
+    "TOML": {
+      "format_on_save": "off",
+    },
   },
   "minimap": {
     "display_in": "all_editors",
