@@ -22,7 +22,6 @@ class System(ABC):
         factory=lambda: Launcher.chain(Cyclopts(
             result_action="return_value",
             version_flags=[],
-            help_flags=[],
             usage="",
         ),
     ))

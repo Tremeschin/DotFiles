@@ -12,6 +12,10 @@ class Archium(ArchLinux, System):
 class Vivobook(ArchLinux, System):
     """Main laptop"""
 
+    def packages(self) -> Iterable[Synckage]:
+        yield from ArchLinux.packages(self)
+        yield Synckage("wireless-regdb")
+
 @define
 class Sweeper(ArchLinux, System):
 

@@ -6,6 +6,7 @@ from attrs import Factory, define
 FLAVORS: Path = Path(__file__).parent
 """Common directory storing dotfiles"""
 
+
 @define
 class Stow:
     """
@@ -16,18 +17,25 @@ class Stow:
     """
 
     target: Path = Factory(Path.home)
+    """Root directory to sync sources"""
 
     sources: list[Path] = Factory(list)
+    """Ordered directories to sync"""
 
-    @staticmethod
-    def get_dotfiles(path: Path) -> Iterable[Path]:
-        """Find all managed dotfiles in a path"""
-        for item in path.rglob("*"):
+    @property
+    def tracker(self) -> Path:
+        """Symlinked known files tracker"""
+        return self.target.joinpath(".stow")
+
+    def files(self) -> Iterable[Path]:
+        """Get managed dotfiles"""
+
+        # Stable source path fragments in managed files
+        stable: set[str] = {"DotFiles", "dotfiles"}
+
+        for item in map(Path, self.tracker.read_text().splitlines()):
             if not item.is_symlink():
                 continue
-
-            # Stable source path fragments in managed files
-            stable: set[str] = {"DotFiles", "dotfiles"}
 
             # Check for all fragments in resolved paths
             if not set(item.resolve().parts) >= stable:
@@ -35,10 +43,9 @@ class Stow:
 
             yield item
 
-    @staticmethod
-    def get_dangling(path: Path) -> Iterable[Path]:
-        """Find all managed dotfiles with broken links"""
-        for item in Stow.get_dotfiles(path):
+    def dangling(self) -> Iterable[Path]:
+        """Get broken links"""
+        for item in self.files():
             try:
                 item.resolve(strict=True)
             except FileNotFoundError:
@@ -97,3 +104,10 @@ class Stow:
                 if not dry:
                     dotfile.parent.mkdir(parents=True, exist_ok=True)
                     dotfile.symlink_to(item)
+
+        # Manage manifest
+        if not dry:
+            for path in self.dangling():
+                path.unlink()
+            data = '\n'.join(sorted(map(str, seen)))
+            self.tracker.write_text(data)

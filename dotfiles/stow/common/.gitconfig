@@ -17,6 +17,3 @@ gpgSign = true
 
 [url "ssh://git@github.com/"]
 insteadOf = https://github.com/
-
-[url "ssh://git@hf.co/"]
-insteadOf = https://huggingface.co/

@@ -18,6 +18,7 @@ class Pacman:
 
     @staticmethod
     def get_yay():
+        """Install yay helper"""
         if shutil.which("yay"):
             return
 

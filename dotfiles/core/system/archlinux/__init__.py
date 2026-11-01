@@ -23,12 +23,8 @@ class ArchLinux(Linux, System):
 
     @override
     def commands(self):
-        self.cli.command(self.sync)
         self.cli.command(self.stow.sync, name="stow")
-        self.cli.command(Pacman.get_yay)
-
-    def sync(self):
-        print("packages")
+        self.cli.command(Pacman.get_yay, name="yay")
 
     def packages(self) -> Iterable[Synckage]:
         yield from Pacsync.base()
