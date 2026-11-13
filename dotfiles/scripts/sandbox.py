@@ -37,6 +37,8 @@ class Bubble:
         """User readonly bindings"""
         yield from home.joinpath(".config/opencode").rglob("*")
         yield home.joinpath(".cache/uv")
+        yield home.joinpath(".local/share/cargo")
+        yield home.joinpath(".local/share/rustup")
         yield home.joinpath(".local/share/uv")
         yield home.joinpath(".rustup")
 
